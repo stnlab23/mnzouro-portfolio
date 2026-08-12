@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menezes Ourivesaria | Alta Joalheria & Ateliê de Restauração</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark: #0b0b0b;
+            --ivory: #f4f4f0;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--ivory);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        /* Custom Cursor para Desktop */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease;
+        }
+
+        /* Efeito de Brilho Dourado */
+        .gold-gradient {
+            background: linear-gradient(45deg, #af8f2c, #d4af37, #f1d592, #d4af37, #af8f2c);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Slider Antes e Depois */
+        .comparison-slider {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+        .comparison-slider img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .img-after {
+            clip-path: inset(0 0 0 50%);
+        }
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: var(--gold);
+            cursor: ew-resize;
+            z-index: 10;
+        }
+        .slider-handle::after {
+            content: '↔';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--gold);
+            color: var(--dark);
+            padding: 10px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* Glassmorphism Header */
+        header {
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .btn-gold {
+            border: 1px solid var(--gold);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-gold:hover {
+            background: var(--gold);
+            color: var(--dark);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <div class="custom-cursor hidden md:block"></div>
+
+    <!-- HEADER -->
+    <header class="fixed w-full z-50 px-6 py-4 flex justify-between items-center">
+        <div class="text-xl tracking-[0.3em] font-serif font-bold">
+            MENEZES <span class="text-[#d4af37]">OURIVESARIA</span>
+        </div>
+        
+        <nav class="hidden md:flex space-x-8 text-[10px] uppercase tracking-[0.2em] font-semibold">
+            <a href="#colecoes" class="hover:text-[#d4af37] transition">Coleções</a>
+            <a href="#sob-medida" class="hover:text-[#d4af37] transition">Sob Medida</a>
+            <a href="#restauracao" class="hover:text-[#d4af37] transition">Restauração</a>
+            <a href="#contato" class="hover:text-[#d4af37] transition">Contato</a>
+        </nav>
+
+        <a href="https://linktr.ee/menezesourivesaria" target="_blank" class="btn-gold px-5 py-2 text-[10px] uppercase tracking-widest flex items-center gap-2">
+            <span>Atendimento Exclusivo</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+            </svg>
+        </a>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative h-screen flex items-center justify-center text-center px-4 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black/60 z-10"></div>
+            <!-- Placeholder para vídeo ou imagem de textura de ouro -->
+            <img src="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover opacity-40" alt="Background">
+        </div>
+
+        <div class="relative z-20 max-w-4xl">
+            <h2 class="text-gold uppercase tracking-[0.4em] text-xs mb-4 reveal">Tradição & Precisão</h2>
+            <h1 class="text-5xl md:text-8xl font-serif mb-8 leading-tight reveal">A Arte de Eternizar <br> <span class="italic gold-gradient">Momentos em Ouro</span></h1>
+            <p class="text-gray-400 max-w-xl mx-auto text-sm md:text-base leading-relaxed mb-10 reveal">
+                Desde a forja artesanal até a restauração de heranças. Criamos joias que carregam histórias e transcendem gerações.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center reveal">
+                <a href="#colecoes" class="btn-gold px-10 py-4 text-xs uppercase tracking-widest">Explorar Galeria</a>
+                <a href="#restauracao" class="border border-white/20 px-10 py-4 text-xs uppercase tracking-widest hover:bg-white hover:text-black transition">Ateliê de Restauração</a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section id="colecoes" class="py-24 px-6 md:px-20">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div class="max-w-2xl">
+                <h3 class="text-gold uppercase tracking-widest text-xs mb-2">Curadoria Exclusiva</h3>
+                <h2 class="text-4xl md:text-5xl font-serif italic">Peças de Assinatura</h2>
+            </div>
+            <p class="text-gray-500 text-sm max-w-xs">Cada peça é única, fundida em ouro 18k e cravejada com as mais puras gemas selecionadas.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <!-- Card 1 -->
+            <div class="gallery-card group cursor-none">
+                <div class="overflow-hidden mb-6 relative">
+                    <img src="https://instagram.ffor10-1.fna.fbcdn.net/v/t39.30808-6/468206541_18136921621369364_3586261969669589357_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&ig_cache_key=MzI4OTE0MTg0OTU3Mzc0NzE4OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=4hDWr8kv0JgQ7kNvwFZDRh_&_nc_oc=Adpsc6_dheDGw1V0XXUvJZ3Fq87vPQ4UuUiLxe13t35lYj7qE1rpCG30miAZCP70X9M4AZ6M20QxGvdPD2vID_0K&_nc_zt=23&_nc_ht=instagram.ffor10-1.fna&_nc_gid=u7IATkwqgCQ8TPpWB6KPyA&_nc_ss=7b689&oh=00_AQHo5kDPUq9x8PwYc6XpC3bB9JzhhijR18OuGvMercuLHQ&oe=6A817E27" alt="Aliança Solitário" class="w-full h-[500px] object-cover transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button onclick="orderWhatsApp('Aliança de Ouro 18k Solitário')" class="bg-white text-black px-6 py-3 text-[10px] uppercase tracking-tighter font-bold hover:bg-[#d4af37] transition">Consultar Peça</button>
+                    </div>
+                </div>
+                <h4 class="font-serif text-xl mb-1">Aliança de Ouro 18k Solitário</h4>
+                <p class="text-xs text-gold uppercase tracking-widest">Ouro Amarelo & Diamante</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="gallery-card group cursor-none md:mt-20">
+                <div class="overflow-hidden mb-6 relative">
+                    <img src="https://scontent.cdninstagram.com/v/t39.30808-6/467855869_18136917112369364_7558418161799979856_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=108&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=rF4FZIjpR_IQ7kNvwFCG3tD&_nc_oc=AdrozWV5VC4p6HIyB87_ou1tHDMH6uV_WuGE00AGgaYeRbueQoETHqTKYWjztk4vdEx0_-zjFaMZxHD4jnP3XhU5&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u7IATkwqgCQ8TPpWB6KPyA&_nc_ss=7b689&oh=00_AQGYMzNI9TT1bz4hjllLAGbLU0wKpaMc4DRVOQP9oo9NGw&oe=6A817EC7" alt="Anel Prata" class="w-full h-[500px] object-cover transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button onclick="orderWhatsApp('Anel de Prata com Cravação de Zircônias')" class="bg-white text-black px-6 py-3 text-[10px] uppercase tracking-tighter font-bold hover:bg-[#d4af37] transition">Consultar Peça</button>
+                    </div>
+                </div>
+                <h4 class="font-serif text-xl mb-1">Anel de Prata Cravejado</h4>
+                <p class="text-xs text-gold uppercase tracking-widest">Prata 950 & Zircônias Premium</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="gallery-card group cursor-none">
+                <div class="overflow-hidden mb-6 relative">
+                    <img src="https://scontent.cdninstagram.com/v/t39.30808-6/410353055_18101360017369364_6006827395278892112_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=103&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=BvRE1WggWsoQ7kNvwH_AIa9&_nc_oc=AdoV8erxi2_D2CITaLzNS_bcnrpW4JPttVzhpespkSHTsG0L2lAliqQfVnZtdplpAEQAdnlJSEbmtriaGhbNiBgL&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=u7IATkwqgCQ8TPpWB6KPyA&_nc_ss=7b689&oh=00_AQF4wFT8RYyaDuzQ0hf0aPRjR3bnaWt6UEBon2lZb9JmZQ&oe=6A81AD0F" alt="Corrente Ouro" class="w-full h-[500px] object-cover transition-transform duration-700">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <button onclick="orderWhatsApp('Corrente de Ouro Trabalhada')" class="bg-white text-black px-6 py-3 text-[10px] uppercase tracking-tighter font-bold hover:bg-[#d4af37] transition">Consultar Peça</button>
+                    </div>
+                </div>
+                <h4 class="font-serif text-xl mb-1">Corrente Elo Português</h4>
+                <p class="text-xs text-gold uppercase tracking-widest">Ouro 18k Maciço</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESTORATION SECTION -->
+    <section id="restauracao" class="py-24 bg-[#050505]">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-gold uppercase tracking-widest text-xs mb-4">Ateliê de Restauração</h2>
+                <h3 class="text-4xl md:text-6xl font-serif italic mb-6">Restauração de Memórias</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto">Sua joia de família merece o cuidado de um mestre. Devolvemos o brilho e a estrutura original com técnicas ancestrais de ourivesaria.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Slider Antes e Depois -->
+                <div class="comparison-slider border border-white/10 shadow-2xl" id="slider-container">
+                    <img src="https://instagram.ffor10-1.fna.fbcdn.net/v/t39.30808-6/468124095_18136925866369364_3393130753701745274_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=MzM3ODA5NDEyNDc2OTU5OTkxMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=4QeorxZngjMQ7kNvwH8uBUP&_nc_oc=AdqnBqZursI7scw11u_2jAHYbsmmcFcQP3rACasQwIq8dEkvfmO291G1-6gqnOcyU6tNufvReZmgC5EngBu5cWI2&_nc_zt=23&_nc_ht=instagram.ffor10-1.fna&_nc_gid=k6H2ZiYsklEwtVuBy9IE8g&_nc_ss=7b689&oh=00_AQH2xQHM1kbAGiVIdqHn62M_n3cKVevtoxlz53C4tR6dxQ&oe=6A81814C" alt="Antes" class="img-before">
+                    <img src="https://scontent.cdninstagram.com/v/t39.30808-6/440145723_18115384357369364_3803331374609361010_n.jpg?stp=dst-jpg_e35_s640x640_tt6&_nc_cat=110&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0FST1VTRUxfSVRFTS5iZXN0X2ltYWdlX3VybGdlbi5DMyJ9&_nc_ohc=g7QaBJwy58gQ7kNvwHO8ogb&_nc_oc=AdqPLTduThZ1cGKrZYDuYX52o9CRODEsimuNNVS65kvds7KzQih_giFMqgwOvr0ttLSx92UAumMuHhh2kJWPkrkR&_nc_zt=23&_nc_ht=scontent.cdninstagram.com&_nc_gid=k6H2ZiYsklEwtVuBy9IE8g&_nc_ss=7b689&oh=00_AQGAzlzQg_M5fj09sSUlsJAiTn6K6el2T5LLLLqJqjIzrA&oe=6A818528" alt="Depois" class="img-after" id="after-img">
+                    <div class="slider-handle" id="handle"></div>
+                    <div class="absolute bottom-4 left-4 bg-black/50 px-3 py-1 text-[10px] uppercase tracking-widest">Antes</div>
+                    <div class="absolute bottom-4 right-4 bg-gold/50 px-3 py-1 text-[10px] uppercase tracking-widest text-white">Depois</div>
+                </div>
+
+                <div class="space-y-8">
+                    <div class="border-l-2 border-gold pl-6">
+                        <h4 class="text-xl font-serif mb-2">Polimento & Limpeza Ultra-sônica</h4>
+                        <p class="text-sm text-gray-500">Remoção de riscos e oxidação, devolvendo o espelhamento original do metal.</p>
+                    </div>
+                    <div class="border-l-2 border-gold pl-6">
+                        <h4 class="text-xl font-serif mb-2">Solda a Laser & Ajustes</h4>
+                        <p class="text-sm text-gray-500">Reparos invisíveis em correntes, anéis e cravações delicadas.</p>
+                    </div>
+                    <div class="pt-6">
+                        <a href="https://linktr.ee/menezesourivesaria" target="_blank" class="btn-gold inline-block px-8 py-4 text-xs uppercase tracking-widest">Solicitar Avaliação via WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS SECTION -->
+    <section id="sob-medida" class="py-24 px-6 overflow-hidden">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-center text-gold uppercase tracking-widest text-xs mb-16">O Processo Sob Medida</h2>
+            
+            <div class="relative border-l border-white/10 ml-4 md:ml-0 md:left-1/2">
+                <!-- Step 1 -->
+                <div class="mb-20 relative timeline-item">
+                    <div class="absolute -left-[9px] md:-left-[8px] w-4 h-4 bg-gold rounded-full"></div>
+                    <div class="ml-10 md:ml-0 md:w-1/2 md:pr-20 md:text-right md:-translate-x-full">
+                        <span class="text-gold font-serif italic text-4xl block mb-2">01.</span>
+                        <h4 class="text-2xl font-serif mb-4">Design da Ideia</h4>
+                        <p class="text-gray-500 text-sm">Esboçamos seu desejo em papel e 3D, alinhando cada detalhe da sua visão com a viabilidade técnica.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="mb-20 relative timeline-item">
+                    <div class="absolute -left-[9px] md:-left-[8px] w-4 h-4 bg-gold rounded-full"></div>
+                    <div class="ml-10 md:ml-20 md:w-1/2">
+                        <span class="text-gold font-serif italic text-4xl block mb-2">02.</span>
+                        <h4 class="text-2xl font-serif mb-4">Modelagem & Forja</h4>
+                        <p class="text-gray-500 text-sm">O ouro é fundido e moldado manualmente. É aqui que o metal bruto ganha alma e forma.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative timeline-item">
+                    <div class="absolute -left-[9px] md:-left-[8px] w-4 h-4 bg-gold rounded-full"></div>
+                    <div class="ml-10 md:ml-0 md:w-1/2 md:pr-20 md:text-right md:-translate-x-full">
+                        <span class="text-gold font-serif italic text-4xl block mb-2">03.</span>
+                        <h4 class="text-2xl font-serif mb-4">Acabamento & Cravação</h4>
+                        <p class="text-gray-500 text-sm">O toque final. Polimento de alto brilho e a cravação precisa de cada pedra preciosa.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-20">
+                <a href="https://linktr.ee/menezesourivesaria" target="_blank" class="text-gold border-b border-gold pb-2 hover:text-white hover:border-white transition uppercase tracking-widest text-xs">Transforme sua ideia em realidade</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contato" class="py-20 border-t border-white/5 px-6">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-20">
+            <div class="col-span-1 md:col-span-2">
+                <div class="text-2xl tracking-[0.3em] font-serif font-bold mb-6">
+                    MENEZES <span class="text-[#d4af37]">OURIVESARIA</span>
+                </div>
+                <p class="text-gray-500 text-sm max-w-sm leading-relaxed">
+                    Excelência em ourivesaria artesanal. Criando o extraordinário para quem não aceita o comum.
+                </p>
+            </div>
+            <div>
+                <h5 class="text-gold uppercase tracking-widest text-[10px] mb-6">Navegação</h5>
+                <ul class="text-sm space-y-4 text-gray-400">
+                    <li><a href="#" class="hover:text-white transition">Início</a></li>
+                    <li><a href="#colecoes" class="hover:text-white transition">Coleções</a></li>
+                    <li><a href="#restauracao" class="hover:text-white transition">Restauração</a></li>
+                    <li><a href="https://www.instagram.com/menezesourivesaria" target="_blank" class="hover:text-white transition">Instagram</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-gold uppercase tracking-widest text-[10px] mb-6">Contato</h5>
+                <ul class="text-sm space-y-4 text-gray-400">
+                    <li>Atendimento Digital</li>
+                    <li>Segunda a Sábado</li>
+                    <li>contato@menezesourivesaria.com.br</li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-[10px] text-gray-600 uppercase tracking-[0.2em]">
+            &copy; 2024 Menezes Ourivesaria - Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor Logic
+        const cursor = document.querySelector('.custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX - 10,
+                y: e.clientY - 10,
+                duration: 0.1
+            });
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero Animations
+        gsap.from(".reveal", {
+            y: 100,
+            opacity: 0,
+            duration: 1.2,
+            stagger: 0.2,
+            ease: "power4.out"
+        });
+
+        // Gallery Cards Animation
+        gsap.from(".gallery-card", {
+            scrollTrigger: {
+                trigger: "#colecoes",
+                start: "top 80%"
+            },
+            y: 60,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.3
+        });
+
+        // Timeline Animation
+        gsap.from(".timeline-item", {
+            scrollTrigger: {
+                trigger: "#sob-medida",
+                start: "top 70%"
+            },
+            x: (i) => i % 2 === 0 ? -50 : 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.4
+        });
+
+        // Before/After Slider Logic
+        const slider = document.getElementById('slider-container');
+        const handle = document.getElementById('handle');
+        const afterImg = document.getElementById('after-img');
+
+        const moveSlider = (e) => {
+            let rect = slider.getBoundingClientRect();
+            let x = (e.pageX || e.touches[0].pageX) - rect.left - window.scrollX;
+            
+            if (x < 0) x = 0;
+            if (x > rect.width) x = rect.width;
+
+            let percent = (x / rect.width) * 100;
+            handle.style.left = percent + "%";
+            afterImg.style.clipPath = `inset(0 0 0 ${percent}%)`;
+        };
+
+        slider.addEventListener('mousemove', moveSlider);
+        slider.addEventListener('touchmove', moveSlider);
+
+        // WhatsApp Order Function
+        function orderWhatsApp(productName) {
+            const phone = "5511999999999"; // Substituir pelo número real
+            const message = encodeURIComponent(`Olá! Vi a peça '${productName}' no site e gostaria de solicitar um orçamento/fechar negócio.`);
+            window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
+        }
+
+        // Smooth Scroll for links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
